@@ -1,0 +1,7 @@
+FROM ghajduk3/rate-limiter-base:latest
+
+COPY src/client/  .
+
+COPY .env .
+
+ENTRYPOINT ["python", "/app/cli.py"]

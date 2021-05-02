@@ -1,0 +1,24 @@
+version: "3.5"
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: ghajduk3/rate-limiter-base
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    depends_on:
+      - base
+    image: ghajduk3/rate-limiter-server
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    depends_on:
+      - base
+      - server
+    image: ghajduk3/rate-limiter-client
+
