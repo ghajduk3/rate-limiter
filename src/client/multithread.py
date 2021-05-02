@@ -21,7 +21,7 @@ class HttpJob(Thread):
             logger.info("Client with id {} has issued a request.".format(self.clientId))
             resp = HttpJob.create_request(self.url,params=params)
             logger.info("Client with id {} has received a response {} with status code {}.".format(self.clientId,resp.json()['message'],resp.status_code))
-            time.sleep(0.5)
+            time.sleep(0.2)
     @staticmethod
     def create_request(url, params):
         return requests.get(url,params=params)

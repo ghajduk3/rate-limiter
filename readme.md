@@ -15,7 +15,6 @@ This project implements a simple HTTP Denial-of-service protection system.
 ### Setup
 These instructions assume that the user is in repo's root.
 ```shell script
-
 cd <repo_root>
 ```
 
@@ -29,16 +28,21 @@ source venv/bin/activate
 2. To install project related dependencies issue:
 ```shell script
 pip3 install -r requirements.txt
+sudo apt-get install redis-server
 ```
-3. After all the project related dependencies have been successfully installed, we can start the `Flask` server by issuing:
+3. In order to use `redis` for storage, in the development environment issue:
+```shell script
+   docker run --name redis-serv -d redis redis-server --appendonly yes
+```
+4. After all the project related dependencies have been successfully installed, we can start the `Flask` server by issuing:
 ```shell script
 venv/bin/python src/server/app.py
 ```
-4. With server successfully started, issue following commands and fill in the .env file with the valid url and port exposed by the server.
+5. With server successfully started, issue following commands and fill in the .env file with the valid url and port exposed by the server. For redis-server usage in the dev environment keep the pre-defined configuration.
 ```shell script
 cp .env.example .env
 ```
-5. In order to run client cli application with help description issue:
+6. In order to run client cli application with help description issue:
 ```shell script
 venv/bin/python src/client/cli.py --help
 ```
@@ -69,13 +73,19 @@ docker pull ghajduk3/rate-limiter-client
 ```
 
 #### Running images
-1. First, we need to run a `rate-limiter-server`. In order to run a docker container issue:
+1. First, in order to use `redis`, we pull pre-built image from dockerHub by issuing:
+```shell script
+    docker run --network <network-name> -p 6379:6379--name <container-name> -d redis redis-server --appendonly yes
+```   
+After the redis container has been created, copy the `.env.example` to `.env` and change the base part of `REDIS_URL` to `<container-name>` afore created, i.e REDIS_URL = redis://<container-name>:6379 
+
+2. Second, we need to run a `rate-limiter-server`. In order to run a docker container issue:
 ```shell script
 docker run --network <network-name> -p 5001:5001 --name <container-name> ghajduk3/rate-limiter-server
 ```
-After the server has successfully started copy the `.env.example` to `.env` and change the base_url part of `WEBSITE_URL` to the afore created `<container_name>`, i.e `WEBSITE_URL=http://<container-name>:5001/api`.
+After the server has successfully started change the base_url part of `WEBSITE_URL` to the afore created `<container_name>`, i.e `WEBSITE_URL=http://<container-name>:5001/api`.
 
-2. In order to run a `rate-limiter-client` CLI application with help description issue:
+3. In order to run a `rate-limiter-client` CLI application with help description issue:
 ```shell script
 docker run --network <network-name> --name <container-name> ghajduk3/rate-limiter-client --help
 ```
