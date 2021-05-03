@@ -93,12 +93,14 @@ docker run --network <network-name> --name <container-name> ghajduk3/rate-limite
 <a name="description"></a>
 ### Description
 In the following subsections I present a brief description of the project.
-####Tech stack used
+
+#### Tech stack used
 * Python
 * Flask
 * Redis
 
-####Server module
+#### Server module
+
 **Rate Limiter**
 
 `RateLimiter` serves as a simple denial-of-service protection system.
@@ -133,7 +135,8 @@ For the implementation of HTTP server we have used `flask`. The server exposes a
     * produces a `503 Service Unavailable Response` if the request is not-allowed
 
 
-####Client module
+#### Client module
+
 Client module consists of a CLI application that simulates scenario in which multiple clients issue HTTP get requests in parallel to the server.
 The application takes the number of clients to be simulated as a command-line argument and sets up each client within its own thread thus allowing requests to be issued in parallel.
 
