@@ -109,7 +109,7 @@ In the following subsections I present a brief description of the project.
 It is implemented based on a fixed window principle, which discards all the requests coming from the specific client that exceed the limit of requests for a given timeframe.
 
 The implementation  exposes two classes  `RateLimiterLocal` and `RateLimiterRedis`  that differ in the type of the storage used.
-`RateLimiterLocal` stores its computational data in a `dictionary` while `RateLimitRedis` uses Redis for storing computational data. 
+`RateLimiterLocal` stores its computational data in a `dictionary` while `RateLimitRedis` uses Redis for storing computational data, thus being more suitable for production environments. 
 Both classes accept number `requests` and the duration of a timeframe `period` specified in seconds, while `RateLimiterRedis` in addition takes established connection to Redis.
 
 For usage convenience a `RateLimiter` is additionaly exposed as a `python decorator`. The decorator takes instantiated object of afore described `RateLimiters` as an argument. 
