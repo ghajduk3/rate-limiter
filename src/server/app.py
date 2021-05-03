@@ -11,9 +11,9 @@ app = Flask(__name__)
 redis_client = RedisClient()
 redis_connection = redis_client.get_connection()
 
-rate_limiter_redis = RateLimiterRedis(5, 5, redis_connection)
-rate_limiter_local = RateLimiterLocal(5, 5)
 
+rate_limiter_local = RateLimiterLocal(requests=5,period=5)
+rate_limiter_redis = RateLimiterRedis(requests=5,period=5,storage= redis_connection)
 
 @app.route('/api', methods=['GET'])
 @RateLimiter(rate_limiter=rate_limiter_redis)

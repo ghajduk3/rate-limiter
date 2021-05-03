@@ -21,4 +21,3 @@ services:
       - base
       - server
     image: ghajduk3/rate-limiter-client
-

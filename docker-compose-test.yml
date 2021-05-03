@@ -1,0 +1,54 @@
+version: "3.5"
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: ghajduk3/rate-limiter-base
+  server:
+    container_name: rate-limiter-server
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    depends_on:
+      - base
+    ports:
+      - 5050:5001
+    networks:
+      - rate-limiter-network
+    environment:
+      - REDIS_URL=redis://redis-server:6375
+      - REDIS=1
+    image: ghajduk3/rate-limiter-server
+
+  client:
+    container_name: rate-limiter-client
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+
+    depends_on:
+      - base
+      - server
+    networks:
+      - rate-limiter-network
+    environment:
+      - WEBSITE_URL=http://rate-limiter-server:5050/api
+    image: ghajduk3/rate-limiter-client
+
+  redis:
+    container_name: redis-server
+    image: redis
+    ports:
+      - "6375:6379"
+    volumes:
+      - ../data/redis:/data
+    entrypoint: redis-server --appendonly yes
+    networks:
+      - rate-limiter-network
+    restart: always
+
+networks:
+  rate-limiter-network:
+    driver: bridge
+
