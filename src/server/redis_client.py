@@ -1,13 +1,18 @@
 import os
-
 from redis import StrictRedis
 from dotenv import load_dotenv
 load_dotenv()
-_connection = None
 
-def get_redis_connection():
-    global _connection
-    if _connection is None:
-        print(os.getenv('REDIS_URL'))
-        _connection = StrictRedis.from_url(os.getenv('REDIS_URL'))
-    return _connection
+
+class RedisClient(object):
+    REDIS_URL = os.getenv("REDIS_URL")
+    _instance = None
+
+    def get_connection(self):
+        return self._redis
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(RedisClient, cls).__new__(cls)
+            cls._redis = StrictRedis.from_url(cls.REDIS_URL)
+        return cls._instance
