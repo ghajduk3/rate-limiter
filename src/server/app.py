@@ -16,7 +16,7 @@ rate_limiter_local = RateLimiterLocal(requests=5, period=5)
 rate_limiter_redis = RateLimiterRedis(requests=5, period=5, storage=redis_connection)
 
 @app.route('/api', methods=['GET'])
-@RateLimiter(rate_limiter=rate_limiter_redis)
+@RateLimiter(rate_limiter=rate_limiter_local)
 def get_request():
     return 'Hello world!'
 

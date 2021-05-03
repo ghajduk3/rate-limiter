@@ -34,14 +34,16 @@ sudo apt-get install redis-server
 ```shell script
 docker run --name redis-serv -d redis redis-server --appendonly yes
 ```
-4. After all the project related dependencies have been successfully installed, we can start the `Flask` server by issuing:
-```shell script
-python src/server/app.py
-```
-5. With server successfully started, issue following commands and fill in the .env file with the valid url and port exposed by the server. For redis-server usage in the dev environment keep the pre-defined configuration.
+4. In order to run demo example, copy the `.env.example` to `.env`. Additionaly, in case of changing the server url or port, fill the correct base path in .env accordingly.
 ```shell script
 cp .env.example .env
 ```
+
+5. After all the project related dependencies have been successfully installed, we can start the `Flask` server by issuing:
+```shell script
+python src/server/app.py
+```
+
 6. In order to run client cli application with help description issue:
 ```shell script
 python src/client/cli.py --help
